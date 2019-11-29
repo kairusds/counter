@@ -24,13 +24,6 @@ function playBGM(){
 	};
 }
 
-$("audio").onended = () => {
-	
-	$("audio").src = `${songs[songIndex]}.mp3`;
-	$("audio").load();
-	$("audio").play();
-};
-
 $("#why").onclick = () => {
 	if($("#content").innerHTML === ""){
 		$("#content").innerHTML = `
