@@ -15,11 +15,10 @@ function playBGM(){
 	sound.play();
 	
 	sound.onended = () => {
-		sound.stop();
+		sound.pause();
 		songIndex++;
 		if(songIndex == songs.length) songIndex = 0;
 		sound.src = `${songs[songIndex]}.mp3`;
-		sound.load();
 		sound.play();
 	};
 }
@@ -53,4 +52,5 @@ $("#quantity").oninput = (event) => {
 	$("#results").value = numbers.join("\n");
 };
 
+playBGM();
 playBGM();
