@@ -15,26 +15,18 @@ let separatorChar = "";
 
 const $ = (selector) => document.querySelector(selector);
 
-const sound = document.createElement("audio");
-sound.src = `${songs[songIndex]}.mp3`;
-sound.setAttribute("preload", "auto");
-sound.setAttribute("controls", "none");
-sound.style.display = "none";
-document.body.appendChild(sound);
+const audio = new Audio(`${songs[songIndex]}.mp3`);
+audio.volume = 0.6;
 
-sound.onended = () => {
-	sound.pause();
+audio.onended = () => {
+	audio.pause();
 	songIndex++;
 	if(songIndex == songs.length) songIndex = 0;
 	let songSrc = `${songs[songIndex]}.mp3`;
-	sound.src = songSrc;
+	audio.src = songSrc;
 	$("#now-playing").innerHTML = `now playing: ${songSrc}`;
-	sound.play();
+	audio.play();
 };
-
-/* const playBGM = () => {
-	sound.play();
-} */
 
 const updateCounter = (event) => {
 	let min = Number($("#start").value);
@@ -71,6 +63,7 @@ $("#why").onclick = () => {
 			<br>so useless i feel nothing but emptiness growing inside me.<br>
 			creating this piece of uselessness is trash but i had fun while it lasted.<br>
 			site created by kairusds/harveyhans(me), music by <a href="https://twitter.com/ChefBakashi" target="_blank">Bakashi</a>.
+			btw clicking the rolling hamster gif changes the volume to 70% or 100%
 		`;
 		$("#why").innerHTML = "okay";
 	}else{
@@ -81,15 +74,23 @@ $("#why").onclick = () => {
 
 $("#music").onclick = () => {
 	if(!songPlaying){
-		sound.play();
+		audio.play();
 		$("#now-playing").innerHTML = `now playing: ${songs[songIndex]}.mp3`;
 		$("#music").innerHTML = "pause music";
 		songPlaying = true;
 	}else{
 		songPlaying = false;
-		sound.pause();
+		audio.pause();
 		$("#now-playing").innerHTML = "";
 		$("#music").innerHTML = "play music";
+	}
+};
+
+$("img").onclick = () => {
+	if(audio.volume == 0.6){
+		audio.volume = 1.0;
+	}else{
+		audio.volume = 0.6;
 	}
 };
 
