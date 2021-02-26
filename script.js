@@ -9,6 +9,9 @@ const songs = [
 let songIndex = 0;
 let songPlaying = false;
 let darkMode = false;
+let newline = false;
+let separator = false;
+let separatorChar = "";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -23,7 +26,9 @@ sound.onended = () => {
 	sound.pause();
 	songIndex++;
 	if(songIndex == songs.length) songIndex = 0;
-	sound.src = `${songs[songIndex]}.mp3`;
+	let songSrc = `${songs[songIndex]}.mp3`;
+	sound.src = songSrc;
+	$("#now-playing").innerHTML = `now playing: ${songSrc}`;
 	sound.play();
 };
 
@@ -34,21 +39,31 @@ sound.onended = () => {
 const updateCounter = (event) => {
 	let min = Number($("#start").value);
 	let max = Number($("#quantity").value);
+	let output = "";
 	const numbers = [];
 	
 	if(min < Number.MIN_SAFE_INTEGER || min > Number.MAX_SAFE_INTEGER) $("#start").value = min = 0;
 	if(max > Number.MAX_SAFE_INTEGER || max < Number.MIN_SAFE_INTEGER) $("#quantity").value = max = 1;
 	
-	for(var i = min; i <= max; i++){
+	for(let i = min; i <= max; i++){
 		numbers.push(i);
 	}
 	
-	$("#results").value = numbers.join("\n");
-}
+	if(separator){
+		for(let i = 0; i < numbers.length - 1; i++){
+			numbers[i] += separatorChar;
+		}
+	}
+	
+	if(newline){
+		$("#results").value = numbers.join("\n");
+		return;
+	}
+	
+	$("#results").value = numbers.join("");
+};
 
-const updateTheme = () => {
-	$("body").style = `background-color: ${darkMode ? "#212121" : "#ffffff"};color: ${darkMode ? "#ffffff" : "#000000"}`;
-}
+const updateTheme = () => $("body").style = `background-color: ${darkMode ? "#212121" : "#ffffff"};color: ${darkMode ? "#ffffff" : "#000000"}`;
 
 $("#why").onclick = () => {
 	if($("#content").innerHTML === ""){
@@ -67,19 +82,42 @@ $("#why").onclick = () => {
 $("#music").onclick = () => {
 	if(!songPlaying){
 		sound.play();
+		$("#now-playing").innerHTML = `now playing: ${songs[songIndex]}.mp3`;
 		$("#music").innerHTML = "pause music";
 		songPlaying = true;
 	}else{
 		songPlaying = false;
 		sound.pause();
+		$("#now-playing").innerHTML = "";
 		$("#music").innerHTML = "play music";
 	}
-}
+};
 
 $("#dark").onchange = (event) => {
 	darkMode = event.target.checked;
 	updateTheme();
 };
+
+$("#newline").onchange = (event) => {
+	if(separator){
+		separator = false;
+		$("#separator").checked = false;
+	}
+	newline = event.target.checked;
+};
+
+$("#separator").onchange = (event) => {
+	if(newline){
+		newline = false;
+		$("#newline").checked = false;
+	}
+	separator = event.target.checked;
+};
+
+$("#separator-char").oninput = (event) => {
+	separatorChar = event.target.value;
+	if(separator) updateCounter(event);
+}
 
 $("#start").oninput = (event) => {
 	updateCounter(event);

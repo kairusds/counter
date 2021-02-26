@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
 		<title>counter</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="script.js" async defer></script>
@@ -11,8 +11,15 @@
 		<p><img src="rollin.gif"></p>
 		dark mode <label class="switch"><input type="checkbox" id="dark"/><div></div></label><br>
 		<a id="why" href="javascript:void(0)">why</a><br>
-		<a id="music" href="javascript:void(0)">play music</a><br>
+		<sub id="now-playing"></sub>
+		<a id="music" href="javascript:void(0)">play music</a><br><br>
 		<div id="content"></div>
+		newline output <label class="switch"><input type="checkbox" id="newline"/><div></div></label><br>
+		character separator <label class="switch"><input type="checkbox" id="separator"/><div></div></label><br>
+		<p id="separator-input">
+			<label for="separator-char">separator character</label>
+			<input type="text" id="separator-char">
+		</p>
 		<p>
 			<label for="start">starting number</label>
 			<input type="number" id="start">
@@ -21,9 +28,6 @@
 			<label for="quantity">ending number</label>
 			<input type="number" id="quantity">
 		</p>
-
-		<div align="center">
-			<textarea id="results" rows="35" cols="40" readonly></textarea>
-		</div>
+		<textarea id="results" cols="40" readonly></textarea>
 	</body>
 </html>

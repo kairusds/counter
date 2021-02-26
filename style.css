@@ -3,6 +3,14 @@ body{
 	font-style: normal;
 }
 
+textarea{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 95%;
+	height: 380px;
+}
+
 a{
 	color: #44A0FF;
 }
